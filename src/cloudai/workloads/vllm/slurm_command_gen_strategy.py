@@ -105,7 +105,7 @@ class VllmSlurmCommandGenStrategy(LLMServingSlurmCommandGenStrategy[VllmCmdArgs]
         tdef: VllmTestDefinition = cast(VllmTestDefinition, self.test_run.test)
         cmd_args: VllmCmdArgs = tdef.cmd_args
 
-        base_cmd = ["vllm", "serve", cmd_args.model, "--host", self.bind_host]
+        base_cmd = [cmd_args.vllm_binary, "serve", cmd_args.model, "--host", self.bind_host]
         if not tdef.cmd_args.prefill:
             return [
                 self._with_ray_backend(
@@ -354,7 +354,7 @@ exit 1"""
         extra_args = self.tdef.bench_cmd_args.model_extra or {}
         extras = ["--" + k.replace("_", "-") + " " + str(v) for k, v in extra_args.items()]
         return [
-            "vllm",
+            self.tdef.cmd_args.vllm_binary,
             "bench",
             "serve",
             f"--model {self.tdef.cmd_args.model}",

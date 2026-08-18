@@ -101,6 +101,7 @@ class VllmCmdArgs(LLMServingCmdArgs[VllmArgs]):
         description="Prefill instance arguments. If not set, a single instance without disaggregation will be used.",
     )
     decode: VllmArgs = Field(default_factory=VllmArgs, description="Decode instance arguments.")
+    vllm_binary: str = Field(default="vllm", description="vLLM binary to use.")
 
 
 class VllmBenchCmdArgs(CmdArgs):
